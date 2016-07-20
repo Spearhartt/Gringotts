@@ -16,7 +16,6 @@ import org.gestern.gringotts.api.impl.VaultConnector;
 import org.gestern.gringotts.data.DAO;
 import org.gestern.gringotts.data.DerbyDAO;
 import org.gestern.gringotts.data.EBeanDAO;
-import org.gestern.gringotts.data.Migration;
 import org.gestern.gringotts.event.AccountListener;
 import org.gestern.gringotts.event.PlayerVaultListener;
 import org.gestern.gringotts.event.VaultCreator;
@@ -192,23 +191,6 @@ public class Gringotts extends JavaPlugin {
     private DAO getDAO() {
 
         setupEBean();
-
-        // legacy support: migrate derby if it hasn't happened yet
-        // automatically migrate derby to eBeans if db exists and migration flag hasn't been set
-        Migration migration = new Migration();
-
-        DerbyDAO derbyDAO;
-        if (!migration.isDerbyMigrated() &&
-                (derbyDAO = DerbyDAO.getDao()) != null) {
-            log.info("Derby database detected. Migrating to Bukkit-supported database ...");
-            EBeanDAO eBeanDAO = EBeanDAO.getDao();
-            migration.doDerbyMigration(derbyDAO, eBeanDAO);
-        }
-
-        if (!migration.isUUIDMigrated()) {
-            log.info("Player database not migrated to UUIDs yet. Attempting migration");
-            migration.doUUIDMigration();
-        }
 
         return EBeanDAO.getDao();
     }
