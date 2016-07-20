@@ -143,7 +143,7 @@ public class DerbyDAO implements DAO {
 
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#storeAccountChest(org.gestern.gringotts.AccountChest)
+     * @see DAO#storeAccountChest(AccountChest)
      */
     @Override
     public synchronized boolean storeAccountChest(AccountChest chest) {
@@ -176,7 +176,7 @@ public class DerbyDAO implements DAO {
     }
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#destroyAccountChest(org.gestern.gringotts.AccountChest)
+     * @see DAO#destroyAccountChest(AccountChest)
      */
     @Override
     public synchronized boolean destroyAccountChest(AccountChest chest) {
@@ -202,7 +202,7 @@ public class DerbyDAO implements DAO {
     }
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#storeAccount(org.gestern.gringotts.GringottsAccount)
+     * @see DAO#storeAccount(GringottsAccount)
      */
     @Override
     public synchronized boolean storeAccount(GringottsAccount account) {
@@ -247,7 +247,7 @@ public class DerbyDAO implements DAO {
 
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#getAccount(org.gestern.gringotts.accountholder.AccountHolder)
+     * @see DAO#getAccount(AccountHolder)
      */
     @Override
     public synchronized boolean hasAccount(AccountHolder accountHolder) {
@@ -338,7 +338,7 @@ public class DerbyDAO implements DAO {
 
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#getChests()
+     * @see DAO#getChests()
      */
     @Override
     public synchronized List<AccountChest> getChests() {
@@ -394,7 +394,7 @@ public class DerbyDAO implements DAO {
 
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#getChests(org.gestern.gringotts.GringottsAccount)
+     * @see DAO#getChests(GringottsAccount)
      */
     @Override
     public synchronized List<AccountChest> getChests(GringottsAccount account) {
@@ -443,7 +443,7 @@ public class DerbyDAO implements DAO {
     }
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#storeCents(org.gestern.gringotts.GringottsAccount, long)
+     * @see DAO#storeCents(GringottsAccount, long)
      */
     @Override
     public synchronized boolean storeCents(GringottsAccount account, long amount) {
@@ -463,7 +463,7 @@ public class DerbyDAO implements DAO {
     }
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#getCents(org.gestern.gringotts.GringottsAccount)
+     * @see DAO#getCents(GringottsAccount)
      */
     @Override
     public synchronized long getCents(GringottsAccount account) {
@@ -511,7 +511,7 @@ public class DerbyDAO implements DAO {
     }
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#shutdown()
+     * @see DAO#shutdown()
      */
     @Override
     public synchronized void shutdown() {
@@ -529,7 +529,7 @@ public class DerbyDAO implements DAO {
     }
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#finalize()
+     * @see DAO#finalize()
      */
     @Override
     protected void finalize() throws Throwable {
@@ -538,7 +538,7 @@ public class DerbyDAO implements DAO {
     }
 
     /* (non-Javadoc)
-     * @see org.gestern.gringotts.data.DAO#deleteAccount(org.gestern.gringotts.GringottsAccount)
+     * @see DAO#deleteAccount(GringottsAccount)
      */
     @Override
     public synchronized void deleteAccount(GringottsAccount acc) {
