@@ -14,16 +14,17 @@ import org.gestern.gringotts.accountholder.AccountHolderFactory;
 import org.gestern.gringotts.accountholder.AccountHolderProvider;
 import org.gestern.gringotts.api.impl.VaultConnector;
 import org.gestern.gringotts.data.DAO;
-import org.gestern.gringotts.data.DerbyDAO;
 import org.gestern.gringotts.data.EBeanDAO;
 import org.gestern.gringotts.event.AccountListener;
 import org.gestern.gringotts.event.PlayerVaultListener;
 import org.gestern.gringotts.event.VaultCreator;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.gestern.gringotts.Configuration.CONF;
