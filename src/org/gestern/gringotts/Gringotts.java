@@ -1,8 +1,10 @@
 package org.gestern.gringotts;
 
 import com.avaje.ebean.EbeanServer;
+import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -35,6 +37,8 @@ import static org.gestern.gringotts.dependency.Dependency.DEP;
 public class Gringotts extends JavaPlugin {
 
     private static final String MESSAGES_YML = "messages.yml";
+
+    public static final String PLUGIN_LABEL = ChatColor.GOLD + "[" + ChatColor.GREEN + "Gringotts" + ChatColor.GOLD + "]" + ChatColor.WHITE;
 
     /** The Gringotts plugin instance. */
     public static Gringotts G;

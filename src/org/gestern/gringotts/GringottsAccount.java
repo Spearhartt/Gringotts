@@ -1,8 +1,13 @@
 package org.gestern.gringotts;
 
+import com.conquestiamc.Balances;
+import com.conquestiamc.logging.CqLogger;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 import org.gestern.gringotts.accountholder.AccountHolder;
 import org.gestern.gringotts.accountholder.PlayerAccountHolder;
 import org.gestern.gringotts.api.TransactionResult;
@@ -16,6 +21,7 @@ import java.util.logging.Logger;
 
 import static org.gestern.gringotts.Configuration.CONF;
 import static org.gestern.gringotts.Gringotts.G;
+import static org.gestern.gringotts.Gringotts.PLUGIN_LABEL;
 import static org.gestern.gringotts.Permissions.USEVAULT_ENDERCHEST;
 import static org.gestern.gringotts.Permissions.USEVAULT_INVENTORY;
 import static org.gestern.gringotts.api.TransactionResult.*;
@@ -31,6 +37,7 @@ public class GringottsAccount {
     @SuppressWarnings("unused")
     private final Logger log = G.getLogger();
     private final DAO dao = G.dao;
+    private final Balances bal = new Balances();
 
     public final AccountHolder owner;
 
@@ -114,6 +121,11 @@ public class GringottsAccount {
                     remaining -= new AccountInventory(player.getInventory()).add(remaining);
                 if (CONF.usevaultEnderchest && USEVAULT_ENDERCHEST.allowed(player))
                     remaining -= new AccountInventory(player.getEnderChest()).add(remaining);
+            } else if (owner instanceof PlayerAccountHolder) {
+                OfflinePlayer offlinePlayer = ((PlayerAccountHolder) owner).accountHolder;
+                bal.setLongBalance(offlinePlayer, bal.loadLongBalance(offlinePlayer) + remaining);
+                //CqLogger.debug(PLUGIN_LABEL + "[ADDING] Adding balance of " + remaining + " to player " + offlinePlayer.getName());
+                remaining -= remaining;
             }
 
             // allow smallest denom value as threshold for available space
@@ -170,6 +182,13 @@ public class GringottsAccount {
                     remaining -= new AccountInventory(player.getInventory()).remove(remaining);
                 if (CONF.usevaultEnderchest && USEVAULT_ENDERCHEST.allowed(player))
                     remaining -= new AccountInventory(player.getEnderChest()).remove(remaining);
+            } else if (owner instanceof PlayerAccountHolder) {
+                OfflinePlayer offlinePlayer = ((PlayerAccountHolder) owner).accountHolder;
+                if (bal.canAfford(offlinePlayer, amount)) {
+                    bal.setLongBalance(offlinePlayer, bal.loadLongBalance(offlinePlayer) - remaining);
+                    //CqLogger.debug(PLUGIN_LABEL + "[REMOVING] Removing balance of " + remaining + " from player " + offlinePlayer.getName());
+                    remaining -= remaining;
+                }
             }
 
             if (remaining < 0)
@@ -207,6 +226,15 @@ public class GringottsAccount {
         return Optional.empty();
     }
 
+    /* private Optional<OfflinePlayer> offlineOwner() {
+        if (owner instanceof PlayerAccountHolder) {
+            OfflinePlayer player = ((PlayerAccountHolder) owner).accountHolder;
+            return Optional.ofNullable(player);
+        }
+
+        return Optional.empty();
+    } */
+
 
     /**
      * Call a function in the main thread. The returned CompletionStage will be completed after the function is called.
@@ -239,6 +267,7 @@ public class GringottsAccount {
             }
 
             Optional<Player> playerOpt = playerOwner();
+
             if (playerOpt.isPresent()) {
                 Player player = playerOpt.get();
                 if (CONF.usevaultEnderchest && USEVAULT_ENDERCHEST.allowed(player))
@@ -259,6 +288,12 @@ public class GringottsAccount {
             if (playerOpt.isPresent() && USEVAULT_INVENTORY.allowed(playerOpt.get())) {
                 Player player = playerOpt.get();
                 balance += new AccountInventory(player.getInventory()).balance();
+            } else if (owner instanceof PlayerAccountHolder) {
+                if (owner instanceof PlayerAccountHolder) {
+                    OfflinePlayer offlinePlayer = ((PlayerAccountHolder) owner).accountHolder;
+                    balance += new Balances().loadLongBalance(offlinePlayer);
+                    //CqLogger.debug(PLUGIN_LABEL + "[COUNT] Loaded balance of " + balance + " for player " + offlinePlayer.getName());
+                }
             }
             return balance;
         };
