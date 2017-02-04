@@ -32,7 +32,7 @@ public abstract class TownyHandler implements DependencyHandler {
         if (towny instanceof Towny)
             return new ValidTownyHandler((Towny)towny);
         else {
-            Gringotts.G.getLogger().warning("Unable to load Towny handler. Towny support will not work");
+            Gringotts.G.getLogger().info("Unable to load Towny handler. Towny support will not work");
             return new InvalidTownyHandler();
         }
     }

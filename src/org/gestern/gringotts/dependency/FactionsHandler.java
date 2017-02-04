@@ -34,7 +34,7 @@ public abstract class FactionsHandler implements DependencyHandler, AccountHolde
         if (factions instanceof Factions)
             return new ValidFactionsHandler((Factions)factions);
         else {
-            Gringotts.G.getLogger().warning(
+            Gringotts.G.getLogger().info(
                     "Unable to load Factions handler because your version of Factions " +
                     "is not compatible with Gringotts. Factions support will not work");
             return new InvalidFactionsHandler();
